@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+
+<h1>Homepage del Mons</h1>
+
+<a href="{% url 'about' %}">Link to about Page</a>
+
+<BR>
+<a href="{% url 'name' %}">Link to Form name Page</a>
+
+{% if first_name %}
+    <br>
+    My First Name is {{ first_name }}.
+    <br/>
+{% endif %}
+
+<p class="pippo">Grande Mons {{ name }} </p>
+
+<form action="{% url 'home' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form}}
+      <input type="submit" value="Submit" />
+    </form>
+
+</body>
+</html>
