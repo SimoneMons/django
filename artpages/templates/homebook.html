@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of books</title>
+</head>
+<body>
+
+<ul>
+    {%  for book in dataset %}
+        <li>{{ book.author }}</li>
+        <li>{{ book.title }}</li>
+        <li>{{ book.synopsis }}</li>
+        <li>{{ book.pages }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

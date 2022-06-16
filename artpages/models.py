@@ -28,3 +28,10 @@ class ContacIfo(models.Model):
 
     def __str__(self):
         return self.first_name
+
+
+class Book(models.Model):
+    author = models.CharField(max_length=30)
+    title = models.CharField(max_length=50)
+    synopsis = models.TextField()
+    pages = models.IntegerField()

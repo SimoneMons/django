@@ -7,8 +7,8 @@ from django.http import HttpResponse
 from .form import NameForm
 from django.shortcuts import redirect
 
-from .models import Person
-from .form import ContactInfoForm
+from .models import Person, Book
+from .form import ContactInfoForm, BookForm
 
 
 def create_contact_info(request):
@@ -68,3 +68,31 @@ def get_name(request):
         form = NameForm()
 
     return render(request, 'name.html', {'form': form})
+
+
+def create_new_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("New book created")
+    else:
+        form = BookForm()
+
+    context = {'form': form}
+
+    return render(request, 'newbook.html', context)
+
+
+def list_of_book(request):
+    if request.method == 'GET':
+        #all_books = Book.objects.raw("Select * from artpages_book")
+        #context = {'all_books': all_books}
+
+        context = {}
+        context["dataset"] = Book.objects.all()
+
+        #context["dataset"] = Book.objects.get(id=1)
+
+        return render(request, 'homebook.html', context)
+
