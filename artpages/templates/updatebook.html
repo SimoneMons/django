@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+Authoraaa:<br>
+<p>{{ mybook.author }}</p>
+
+<form action="/{{ mybook.id }}/updatebook/" method="post">
+{% csrf_token %}
+    Author:<br>
+    <input name="author" value="{{ mybook.author }}" readonly>
+    <br><br>
+    Title:<br>
+    <input name="title" value="{{ mybook.title }}">
+    <br><br>
+    Synopsis:<br>
+    <input name="synopsis" value="{{ mybook.synopsis }}">
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

@@ -1,19 +1,33 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>List of books</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
 
-<ul>
+<table>
+  <tr>
+    <th>Author</th>
+    <th>Title</th>
+    <th>Synopsis</th>
+    <th>Pages</th>
+  </tr>
+
     {%  for book in dataset %}
-        <li>{{ book.author }}</li>
-        <li>{{ book.title }}</li>
-        <li>{{ book.synopsis }}</li>
-        <li>{{ book.pages }}</li>
+        <tr>
+            <th class="pippo">{{ book.author }}</th>
+            <th>{{ book.title }}</th>
+            <th>{{ book.synopsis }}</th>
+            <th>{{ book.pages }}</th>
+            <td><a href="/{{ book.id }}/updatebook/">update</a></td>
+            <td><a href="/{{ book.id }}/delete/">delete</a></td>
+        </tr>
     {% endfor %}
-</ul>
+
+</table>
 
 </body>
 </html>

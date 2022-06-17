@@ -1,14 +1,17 @@
 from django.template.context_processors import request
 from django.views.generic import TemplateView
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+
 from django.http import HttpResponse
 
+from django.shortcuts import (get_object_or_404,
+                              render,
+                              HttpResponseRedirect)
 from .form import NameForm
 from django.shortcuts import redirect
 
 from .models import Person, Book
 from .form import ContactInfoForm, BookForm
+from django.template import loader
 
 
 def create_contact_info(request):
@@ -86,13 +89,58 @@ def create_new_book(request):
 
 def list_of_book(request):
     if request.method == 'GET':
-        #all_books = Book.objects.raw("Select * from artpages_book")
-        #context = {'all_books': all_books}
+        # all_books = Book.objects.raw("Select * from artpages_book")
+        # context = {'all_books': all_books}
+
+        # Update test
+        obj1 = Book.objects.get(id=1)
+        obj1.author = "Adam"
+        obj1.save()
 
         context = {}
         context["dataset"] = Book.objects.all()
 
-        #context["dataset"] = Book.objects.get(id=1)
+        # context["dataset"] = Book.objects.get(id=1)
 
         return render(request, 'homebook.html', context)
 
+
+def delete_book(request, id):
+    # dictionary for initial data with
+    # field names as keys
+    context = {}
+
+    # fetch the object related to passed id
+    obj = get_object_or_404(Book, id=id)
+
+    if request.method == "POST":
+        # delete object
+        obj.delete()
+        # after deleting redirect to
+        # home page
+        return HttpResponseRedirect("/homebook/")
+
+    return render(request, "delete.html", context)
+
+
+def update_book(request, id):
+    mybook = Book.objects.get(id=id)
+    if request.method == 'GET':
+
+        template = loader.get_template('updatebook.html')
+        context = {
+            'mybook': mybook,
+        }
+        return HttpResponse(template.render(context, request))
+
+    if request.method == 'POST':
+        synopsis = request.POST['synopsis']
+
+        _book = Book.objects.get(id=id)
+        _book.synopsis = synopsis
+
+        _book.save()
+
+        return HttpResponseRedirect("/homebook/")
+
+    return HttpResponseRedirect("/homebook/")
