@@ -1,7 +1,7 @@
 from django.template.context_processors import request
 from django.views.generic import TemplateView
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from django.shortcuts import (get_object_or_404,
                               render,
@@ -12,6 +12,9 @@ from django.shortcuts import redirect
 from .models import Person, Book
 from .form import ContactInfoForm, BookForm
 from django.template import loader
+
+import json
+
 
 
 def create_contact_info(request):
@@ -126,7 +129,6 @@ def delete_book(request, id):
 def update_book(request, id):
     mybook = Book.objects.get(id=id)
     if request.method == 'GET':
-
         template = loader.get_template('updatebook.html')
         context = {
             'mybook': mybook,
@@ -144,3 +146,19 @@ def update_book(request, id):
         return HttpResponseRedirect("/homebook/")
 
     return HttpResponseRedirect("/homebook/")
+
+
+def test_div(request):
+    if request.method == 'POST':
+        value = request.POST['texto']
+        print(value)
+        context = {
+            "left": value,
+        }
+        hall9000 = 'ciaooo'
+        response = {'msg': value, 'hal': hall9000}
+        return JsonResponse(response)
+    else:
+        value = "Hello Mons"
+
+    return render(request, 'test.html')
